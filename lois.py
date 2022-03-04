@@ -21,7 +21,7 @@ class LOIS():
         img = 0
         self.show(channel, img)
 
-    def show(self, channel, img)
+    def show(self, channel, img):
         i = cv2.resize(img, fx=self.scale, fy=self.scale)
         cv2.imshow(channel, i)
 
