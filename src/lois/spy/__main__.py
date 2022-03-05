@@ -11,7 +11,7 @@ def main(channel, scale=0.5, verbose=0):
 if __name__ == "__main__":
     import argparse
     P = argparse.ArgumentParser(description="LCM OpenCV Image Spy")
-    P.add_argument('-s', '--scale', default=0.5,
+    P.add_argument('-s', '--scale', type=float, default=0.5,
                    help='display verbose output')
     P.add_argument('-v', '--verbose', action='count', default=0,
                    help='display verbose output')

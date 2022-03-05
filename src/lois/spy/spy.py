@@ -20,7 +20,8 @@ class LOIS():
             print("rx {m.height}-by-{m.width} image on {c}".format(c=channel, m=msg))
         img = np.frombuffer(msg.data, np.uint8)
         img.shape = (msg.height, msg.width)
-        #img = cv2.Mat(msg.height, msg.width, cv2.CV_8U, msg.data)
+        if self.verbose > 1:
+            print("\tmin: {0}, max: {1}".format(img.min(), img.max()))
         self.show(channel, img)
 
     def handle_raw_bytes_t(self, channel, data):
@@ -30,8 +31,9 @@ class LOIS():
         self.show(channel, img)
 
     def show(self, channel, img):
-        #i = cv2.resize(img, fx=self.scale, fy=self.scale)
+        i = cv2.resize(img, dsize=None, fx=self.scale, fy=self.scale)
         cv2.imshow(channel, img)
+        cv2.waitKey(1)
 
     def spy(self):
         lio = lcm.LCM()
@@ -42,6 +44,3 @@ class LOIS():
 
         except KeyboardInterrupt:
             pass
-
-
-# python3 -m lois images 0.25
