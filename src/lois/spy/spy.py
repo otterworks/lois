@@ -4,6 +4,8 @@ import numpy as np
 import lcm
 import cv2
 
+from datetime import datetime
+
 from ..lcmtypes.raw import bytes_t
 from ..lcmtypes.image import image_t
 
@@ -18,9 +20,13 @@ class LOIS():
         msg = image_t.decode(data)
         if self.verbose > 0:
             print("rx {m.height}-by-{m.width} image on {c}".format(c=channel, m=msg))
+            if self.verbose > 1:
+                t = datetime.utcfromtimestamp(msg.utime/1e6)
+                delta = datetime.utcnow()-t
+                print("\tpublished {t} ({delta} ago)".format(t=t, delta=delta))
         img = np.frombuffer(msg.data, np.uint8)
         img.shape = (msg.height, msg.width)
-        if self.verbose > 1:
+        if self.verbose > 2:
             print("\tmin: {0}, max: {1}".format(img.min(), img.max()))
         self.show(channel, img)
 
